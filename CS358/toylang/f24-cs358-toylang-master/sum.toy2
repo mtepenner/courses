@@ -1,0 +1,13 @@
+{ 
+def sum(n) = {
+	var s = 0;
+	while (n) {
+	s = s + n;
+	n = n - 1
+	};
+	return s
+};
+  
+print(sum(10));
+print(sum(100))
+} 

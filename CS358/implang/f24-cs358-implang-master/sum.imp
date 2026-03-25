@@ -1,0 +1,11 @@
+{ 
+  var n = 100;
+  var x = 0;
+  var y = n + 1;
+  for i in [ 1 .. y ]
+  {
+	x = x + i
+  };
+  print(x)
+
+}

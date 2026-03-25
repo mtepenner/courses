@@ -1,0 +1,50 @@
+Matthew Penner
+
+implang.py:
+
+For this file, I ended up using both the built in update function with the built in environment alongside the update function written
+specifically for the code.  The two working together, one for a variable I called "restored_scope" which passes in a restored environment
+using a prev list and the main function called "update_self" which follows the logic from exercise5, made the results very accurate.  I ran
+both imp files given in the zip file, and both printed accurately without any error messages.  I made some mistakes when writing functions
+for each operation listed out in the grammar.  Instead of visiting each variable, my return statement looked like "return variable1 + variable2"
+rather than "return self.visit(variable1) + self.visit(variable2)."  This confusion was very quickly cleared up.
+
+implang2.py:
+
+In the grammar, the existing "expr" function was renamed to "aexpr" per the assignment guidelines to avoid any confusion.  New rules were added for
+dealing with the equality operators '<' and '==' under the new "expr" rule.  The Eval class has new methods to handle each of these operators.  The 
+implementation was very identical to previous assignments, and I faced no challenges when initially implementing them.  Finally, I added the rule for 
+"forstmt" in the grammar and made a function in Eval() that evaluates an instance of a for loop. 
+
+When I went to test the sample imp code that was provided, I got this error: "'Tree' object is not callable."  This issue was related to how 
+I was making function calls in the forstmt function.  I was calling extend in the for loop when it should've been called outside.  Additionally,
+one of the parameters I was passing in was "range" which shadowed python's built in range function.  A relatively simple typo that can be easy to
+overlook. When I made these changes, I got the output:
+"Variable '{x}' is undefined."  
+
+I was able to get the two test functions for implang2 to work after doing some revisions to my forstmt function.  I made the mistake of putting the 
+extend function in the loop instead of update, which is where it belonged.  
+
+The .imp files:
+
+The biggest area I made errors was my placement of semicolons.  It was easier to create each of these files by basing each off of python code, and then
+applying the syntax to the file.  For my fac.imp, I initialized 3 variables: n to equal 5, x to equal 1 as a starting number
+, and i to equal 1.  i iterates until equal to 5, which is the final time the while loop is executed. x multiplies i, and i is incremented.  Finally, x is 
+printed.
+
+For my prime.imp file, I set variable y = 10 as that is the limit for this program.  Variable x was set to 2 as that is the first prime number. I used nested
+while loops.  Another variable, i, was used to check for divisibility.  Variable z was a boolean value that is set to 1 (equivalent of true) and is set to
+0 if it is divisible by i.  I divided x by i and then multiplied it by i to see if the result was equal to x as an alternate method to using modulus.  x increments
+every single time the outer while loop runs.  
+
+For sum.imp, I set x to 0, and iterated using a for loop added i to x until i was equal to 100.
+
+It was very hard for me to tell if these worked or not.  I know that the grammar works as I do not get any errors in the output, meaning that the files,
+although potentially may not be correct algorithmically, they do not error out. When running each of these files with implang2.py, I got this exception 
+every time: "Variable '{x}' is undefined."  Test1.imp and test2.imp both work perfectly according to the output, so I encountered confusion in where my 
+code was going wrong.  I resolved to place a ton of debugging statements throughout the Eval() and Env() class methods so that I can properly trace my output.
+I found there were a few spots where I did not use self.visit(), so I changed those, but still found I was having the same problems as before, meaning that
+correcting those conflicts of interest were not relevant to where my code was actually failing.    
+
+At the last second, I realized I forgot to include var in the imp files for defining new variables, which is why I was getting that error.  
+

@@ -1,0 +1,85 @@
+Matthew Penner
+10/24/2024
+
+**Boolex.py**
+
+FINAL RESULTS: 
+Sample output --
+Enter a bool expr: (True or not False) and True
+andop
+  orop
+    truev
+    notop
+      falsev
+  truev
+tree.Eval() = True
+tree.toList() = ['and', ['or', 'True', ['not', 'False']], 'True']
+strForm() = (and (or True (not False)) True)
+
+It works perfectly as intended with all given test cases!
+
+CONFLICTS:
+One of the issues I had when initially beginning to test output was when I entered a boolean expression
+at the prompt, I got this error: "*** No terminal matches ' ' in the current parser context."
+This ended up being because I had a faulty grammar definition, and forgot to include rules to explicitly 
+handle the "and" and "or" operators.  Another issue was that I initially forgot to add in the lines at the bottom of
+the lark expression that would tell the parser to ignore whitespaces.
+
+After resolving these issues, another issue I ran into was the way the output was being displayed.  Although
+the sequence is correct, it also included "orex" and "andex, which I struggled to get rid of until realizing 
+I forgot to add the "?" character at the start of each definition.
+
+Additionally, I had trouble with properly printing out the lists.  I found the fix however.  Initially,
+my print statements looked like, for example: return ['or', a, b].  This caused a number of issues...
+Firstly, it caused my string function to not work at all.  Secondly, it produced this output:
+tree.toList() = ['and', Tree('orop', [Tree('truev', []), Tree('notop', [Tree('falsev', [])])]), Tree('truev', [])]
+
+I realized that I forgot to actually visit each node, so I resolved the printing problem by changing it 
+to: return ['or', self.visit(a), self.visit(b)]
+
+Another issue I encountered was I did not put brackets around the variables in the return statements for my toList
+class, so what actually got produced was a tuple instead of a list, leading to the output not looking the same as the
+sample output in the assignment document.
+
+
+**Letex.py**
+
+FINAL RESULTS: 
+I was able to successfully print the parsed output in a format identical to the sample output in the assignment document:
+Enter a let expr: let x=1 in x+1
+let
+  x
+  num   1
+  add
+    var x
+    num 1
+tree.Eval() = 2
+
+It works perfectly as intended with all given test cases!
+
+CONFLICTS:
+One of the initial problems I encountered was that the outputs did not line up with the expected output.  For instance,
+take the expression let x=1 in x+1.  I expected the following:
+Enter a let expr: let x=1 in x+1
+let
+  x
+  num 1
+  add
+    var x
+    num 1
+
+What I actually got was the following:
+Enter a let expr: let x=1 in x+1
+expr0
+  x
+  1
+  expr
+    x
+    1
+
+What I discovered was that I needed to add arrows to the grammar statement with variable names at the end as that allowed for 
+the format of the output to be corrected. 
+
+The next issue I faced was when programming and testing the Eval() class, when using the sample test output in the assignment 
+document, it was unable to correctly calculate the output of 2.  Instead, the error message "*** Undefined variable: x" printed out.
+I have since been able to resolve this issue by identifying a simple typo in my grammar definition.  
